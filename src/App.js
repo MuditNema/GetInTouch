@@ -14,11 +14,10 @@ import {
   Route
 } from "react-router-dom";
 import Unauthenticated from './components/Unauthenticated';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { LoggedIn, LoginUser } from "./Redux/actions"
 import { useEffect } from 'react';
-
+import { Navigate } from 'react-router-dom';
 
 const theme= createTheme({
   typography : {
@@ -47,7 +46,6 @@ const  App =   () => {
       LoginUser({info:{},valid:true},dispatch)
     },[])
     
-    
   return (
     <ThemeProvider theme={theme}>
       <div style={{
@@ -71,6 +69,10 @@ const  App =   () => {
             }
             
             <Route  path="/hire/:id" element={<Hiring/>}/>
+            <Route
+                path="*"
+                element={<Navigate to="/" replace />}
+            />
           </Routes>
         </BrowserRouter>
         </div>

@@ -6,10 +6,7 @@ const UserCredentials = GetUser();
 export const UserReducer = createReducer(UserCredentials,(builder) => {
     builder.addCase(GetUserAction , (state,action) => {
         console.log(UserCredentials)
-        if(action.payload.valid){
-            return action.payload.info;
-        }
-        return state;
+        return action.payload.info
     })
 })
 

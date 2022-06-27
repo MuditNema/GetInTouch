@@ -11,8 +11,8 @@ import ListItem from '@mui/material/ListItem';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EditIcon from '@mui/icons-material/Edit';
-import { useSelector } from 'react-redux/es/exports';
-
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import {LoggedIn,LoginUser} from "../Redux/actions"
 
 import { useEffect ,useState} from 'react';
 
@@ -75,11 +75,13 @@ const useStyles = makeStyles((theme)=>({
 
 const Profile = () => {
     const classes =  useStyles();
+    const dispatch = useDispatch();
     const UserInfo = useSelector((state) => state.UserReducer);
     const [UpdateDialog, setUpdateDialog] = useState(false)
     // setUserInfo(LoginUser({info:{},valid:true},dispatch))
     useEffect(() => {
-        console.log(UserInfo);
+        LoginUser({valid:false},dispatch)
+        LoggedIn(dispatch);
     },[])
     
     const DialogState = () => {

@@ -6,10 +6,10 @@ import headerBG from '../resources/headerBG.png'
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from 'react-cookie'
 import { useEffect } from 'react'
-
+import { LoginUser,LoggedIn } from '../Redux/actions'
 const useStyles = makeStyles({
     box : {
         backgroundColor : "#E5F6F5",
@@ -58,7 +58,7 @@ const Header = () => {
     const UserInfo = useSelector((state) => state.UserReducer)
     const UserStatus = useSelector((state) => state.UserStatus)
     const [Cookies,setCookie,removeCookie] = useCookies();
-
+    const dispatch = useDispatch();
     const UserState = () => {
         if(UserStatus){
             localStorage.clear();
@@ -66,11 +66,16 @@ const Header = () => {
             removeCookie('email')
             removeCookie('loggedin')
             console.log(Cookies)
+            LoginUser({valid:false},dispatch)
+            LoggedIn(dispatch)
         }
         navigate('/login')
     }
     useEffect(() => {
-    }, [Cookies])
+        LoginUser({valid:false},dispatch)
+        LoggedIn(dispatch);
+        console.log("Header re-render")
+    }, [])
     
   return (
       <div>
@@ -165,10 +170,10 @@ const Header = () => {
                                     }
                                 }}
                             >
-                            {UserInfo?"LOGOUT":"LOGIN"}
+                            {UserStatus?"LOGOUT":"LOGIN"}
                             </Button>
                             <Avatar
-                                src={UserInfo?UserInfo.profile:""}
+                                src={UserStatus?UserInfo.profile:""}
                                 sx={{
                                     height : "80%",
                                     width : "10%",

@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { Link, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-
+import { useEffect } from 'react';
 //setting up firebase
 import {getAuth, signInWithEmailAndPassword  } from 'firebase/auth'
 import {app} from "../Firebase/FirebaseConfig"
@@ -83,9 +83,9 @@ const Login = () => {
         // LoginUser({info:item.data(),valid:true},dispatch)
         localStorage.setItem('user',JSON.stringify(item.data()))
         console.log(JSON.parse(localStorage.getItem('user')))
+        LoginUser({valid:true},dispatch)
         LoggedIn(dispatch)
         console.log()
-        LoginUser({valid:true},dispatch)
         navigate('/profile/1')
       })
       
@@ -93,6 +93,12 @@ const Login = () => {
       console.log(error)
     }
   }
+  useEffect(() => {
+     LoginUser({valid:false},dispatch)
+      LoggedIn(dispatch);
+  }, [])
+  
+
   return (
     <>
       <Paper
