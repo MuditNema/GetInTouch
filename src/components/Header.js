@@ -67,6 +67,7 @@ const Header = () => {
             removeCookie('loggedin')
             console.log(Cookies)
         }
+        navigate('/login')
     }
     useEffect(() => {
     }, [Cookies])
@@ -148,7 +149,6 @@ const Header = () => {
                             >
                             CHAT
                             </Button> */}
-                            <a href='/login' style={{textDecoration:"none"}}>
                             <Button
                                 onClick={UserState}
                                 sx={{
@@ -167,7 +167,6 @@ const Header = () => {
                             >
                             {UserInfo?"LOGOUT":"LOGIN"}
                             </Button>
-                            </a>
                             <Avatar
                                 src={UserInfo?UserInfo.profile:""}
                                 sx={{
