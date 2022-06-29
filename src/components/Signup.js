@@ -200,25 +200,8 @@ const Signup = () => {
                 setErrorConsole({...ErrorConsole,message:"",AlertState:false,e:false});
             }, 5000);
         }
-        // try {
-        //     const RegisteredUser = await createUserWithEmailAndPassword(auth, email, password);
-        //     //Add the info to the database
-        //     const UserDocRef = await addDoc(collection(db, "users"), {
-        //         //write the object (which you want to enter)
-        //       });
-        //     setRefId(UserDocRef.id);  
-        //     //upload the profile picture to the storage
-        //     const ProfileRef = ref(storage,UserCreds.image);
-        //     const ProfileUpload = await uploadBytesResumable(ProfileRef, ImageURL);
-        //     // const GetProfileURL = await getDownloadURL(//*add reference to the uploaded image*//)
-        //     setProfileURL(GetProfileURL);
-        // }
-        //  catch (error) {
-            
-        // }
     }
     //image section
-    
     const ImageUpload = async(Obj) => {
         const ProfileRef = ref(storage, `Temp/profile`);
         const UploadTask = await uploadBytesResumable(ProfileRef, Obj);

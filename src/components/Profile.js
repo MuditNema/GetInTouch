@@ -5,6 +5,7 @@ import Avatar from '@mui/material/Avatar'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
 import HomeIcon from '@mui/icons-material/Home';
+import {IconButton} from '@mui/material'
 import {Button} from '@mui/material'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -116,16 +117,15 @@ const Profile = () => {
                             }}
                     >
                         {UserInfo.name}
-                        <Button
+                        <IconButton
                             onClick={DialogState}
                         >
                             <EditIcon
                                 sx={{
-                                    fontSize : "2.2rem",
-                                    ml : "12px"
+                                    fontSize : "2.2rem"
                                 }}
                             />
-                        </Button>
+                        </IconButton>
                     </Typography>
                     <Typography sx={typoCSS}
                         style={{

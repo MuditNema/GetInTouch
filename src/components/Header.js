@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from 'react-cookie'
 import { useEffect } from 'react'
 import { LoginUser,LoggedIn } from '../Redux/actions'
+import Cookies from 'js-cookie'
 const useStyles = makeStyles({
     box : {
         backgroundColor : "#E5F6F5",
@@ -57,15 +58,13 @@ const Header = () => {
     const navigate = useNavigate();
     const UserInfo = useSelector((state) => state.UserReducer)
     const UserStatus = useSelector((state) => state.UserStatus)
-    const [Cookies,setCookie,removeCookie] = useCookies();
     const dispatch = useDispatch();
     const UserState = () => {
         if(UserStatus){
             localStorage.clear();
-            removeCookie('auth')
-            removeCookie('email')
-            removeCookie('loggedin')
-            console.log(Cookies)
+            Cookies.remove('auth', { path: '' });
+            Cookies.remove('email', { path: '' });
+            Cookies.remove('loggedin', { path: '' });
             LoginUser({valid:false},dispatch)
             LoggedIn(dispatch)
         }
