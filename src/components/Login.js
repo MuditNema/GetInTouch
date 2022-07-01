@@ -11,10 +11,11 @@ import {getAuth, signInWithEmailAndPassword  } from 'firebase/auth'
 import {app} from "../Firebase/FirebaseConfig"
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux/es/hooks/useDispatch';
-import { LoggedIn, LoginUser } from '../Redux/actions';
+import { LoggedIn, LoginUser , UserId} from '../Redux/actions';
 import { getDocs } from 'firebase/firestore';
 import { collection, query, where } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 const useStyles =  makeStyles((theme) => ({
   login : {
@@ -66,6 +67,7 @@ const Login = () => {
     }
     setLoginPassword(e.target.value)
   }
+  const UserID = useSelector((state)=> state.UserId)
   const HandleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -79,13 +81,15 @@ const Login = () => {
       const q = query(collection(db,"users"),where("email","==",LoginEmail.toString()))
       const Obj = await getDocs(q)
       Obj.forEach((item)=>{
-        // console.log(item.data())
+        // console.log(item.id)
         // LoginUser({info:item.data(),valid:true},dispatch)
         localStorage.setItem('user',JSON.stringify(item.data()))
+        localStorage.setItem('UserId',JSON.stringify(item.id));
         console.log(JSON.parse(localStorage.getItem('user')))
         LoginUser({valid:true},dispatch)
         LoggedIn(dispatch)
-        console.log()
+        UserId(dispatch)
+        console.log(UserID)
         navigate('/profile/1')
       })
       

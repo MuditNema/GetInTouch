@@ -548,7 +548,7 @@ const Signup = () => {
                         <FormControl>
                         <DialogContent>
                         <DialogContentText>
-                            Please Enter the work carefully. Once entered it cannot be changed
+                            Please enter your education carefully. Once entered it cannot be changed
                         </DialogContentText>
                         <TextField
                             autoFocus

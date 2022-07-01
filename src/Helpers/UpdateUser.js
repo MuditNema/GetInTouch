@@ -20,44 +20,110 @@ import Stack from '@mui/material/Stack';
 import WorkList from '../components/List/WorkList';
 import ClearIcon from '@mui/icons-material/Clear';
 import UpdateUserList from '../components/List/UpdateUserList';
-import { useEffect } from 'react';
+import {useDispatch, useSelector} from "react-redux"
 
-import {useSelector} from "react-redux"
-
-
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { app } from '../Firebase/FirebaseConfig';
+import { LoginUser } from '../Redux/actions';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const TextFieldCSS = {style : {
+  padding : "4px 8px",
+  fontSize : "1.3vw"
+}}
+const ListItemCSS = {
+  fontSize:"1.5vw",
+  fontFamily: "Fredoka"
+}
 const UpdateUser = ({state}) => {
     const options = useMemo(() => countryList().getData(), [])
-    const India = 'India'
-    const [UserKeys, setUserKeys] = useState(['Name','Contact','Github','LinkedIn','Skill','City'])
+    const db = getFirestore(app)
+    const dispatch = useDispatch();
+    
 
-    const UserInfo = useSelector((state)=> state.UserReducer);
-    const UserArray =  [UserInfo.name,UserInfo.contact,UserInfo.github,UserInfo.linkedin,UserInfo.skills,UserInfo.city]
+    const UserKeys = ['Name','Contact','Github','LinkedIn','Skills','City']
+    const Id = useSelector((state) => state.UserId)
+    // const UserCreds = useSelector((state)=> state.UserReducer);
+    const [UserInfo, setUserInfo] = useState(useSelector((state)=> state.UserReducer))
     const [Works, setWorks] = useState(UserInfo.work)
+    const [WorkState, setWorkState] = useState("")
     const [Education, setEducation] = useState(UserInfo.education)
-    const TextFieldCSS = {style : {
-      padding : "4px 8px",
-      fontSize : "1.3vw"
-    }}
-    const ListItemCSS = {
-      fontSize:"1.5vw",
-      fontFamily: "Fredoka"
+    const [EducationState, setEducationState] = useState("")
+    const [TypeState, setTypeState] = useState("")
+    const [DialogState, setDialogState] = useState(false)
+
+    const KeyChange = (e) => {
+      setUserInfo({...UserInfo,[e.target.name]:e.target.value})
     }
+
     const HandleClose = () => {
         state.setUpdateDialog(false)
     }
-    const HandleSubmit = (e) => {
-      e.preventDefault()
-      //write the code to update the database and the user state and localStorage
-
-      state.setUpdateDialog(false)
+    
+    const UpdateWorkAndEducation = () => {
+      console.log("Update work and education running :" , Works, Education)
+      //update the work and education array 
+      const Obj = {...UserInfo};
+      Obj.work = Works;
+      Obj.education = Education;
+      return Obj
     }
-    const DeleteElement = (i) => {
-      setUserKeys(UserKeys.filter((element,index) => {return index !== i}))
+
+    const HandleSubmit = async (e) => {
+      e.preventDefault()
+      try {
+        
+        //write the code to update the database , user state and localStorage
+        const fin = UpdateWorkAndEducation();
+        const UserDoc = doc(db,"users",Id)
+        const UpdateUser = await updateDoc(UserDoc , fin);
+        // console.log(UpdateUser.data())
+        localStorage.setItem('user',JSON.stringify(fin))
+        LoginUser({valid:true},dispatch)
+        state.setUpdateDialog(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    
+    const UpdateElement = (e) => {
+      if(TypeState==="work"){
+        setWorkState(e.target.value)
+      } 
+      else if(TypeState==="education"){
+        setEducationState(e.target.value)
+      } 
+    }
+
+    const AddElement = (e) => {
+      e.preventDefault()
+      if(TypeState==="work"){
+        const flag = WorkState
+        setWorks([...Works,flag])
+        setWorkState("")
+      } 
+      else if(TypeState==="education"){
+        const flag = EducationState
+        setEducation([...Education,flag])
+        setEducationState("")
+      } 
+      setDialogState(false)
+    }
+
+    const DeleteElement = (index,type) => {
+      if(type==="work"){
+        setWorks(Works.filter((e,i)=>  i != index))
+      }
+      else if(type==="education"){
+        setEducation(Education.filter((e,i)=> i!=index))
+      }
     }
     
   return (
@@ -80,15 +146,12 @@ const UpdateUser = ({state}) => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Get In Touch
             </Typography>
-            <Button autoFocus color="inherit" onClick={HandleClose}>
-              save
-            </Button>
           </Toolbar>
         </AppBar>
         <List>
           {
             UserKeys.map((element,index)=> {
-              return (<UpdateUserList item={element} key={index} value={UserArray[index]}/>)})
+              return (<UpdateUserList item={element} key={index} User={{UserInfo,setUserInfo}}  KeyChange={KeyChange}/>)})
           }
         </List>
         <List>
@@ -105,8 +168,10 @@ const UpdateUser = ({state}) => {
             </ListItemText>
             <TextField
               select
-              defaultValue={India}
+              value={UserInfo.country}
               inputProps={TextFieldCSS}
+              onChange={KeyChange}
+              name="country"
             >
               {options.map((option) => (
                             <MenuItem key={option.label} value={option.label} style={{fontSize : "1.2vw"}}>
@@ -123,7 +188,15 @@ const UpdateUser = ({state}) => {
               justifyContent="space-evenly"
               spacing={3}
             >
-              <div>
+              <div
+              style={{
+                display:"flex",
+                flexDirection:"column",
+                justifyContent : "space-between"
+              }}
+              
+              >
+                <div>
                 <Typography
                   sx={{
                     fontSize : "1.5vw",
@@ -146,7 +219,7 @@ const UpdateUser = ({state}) => {
                             }}
                           >
                           <WorkList style={{margin:"auto",width:"fit-content"}}element={e} index={i}/>
-                          <IconButton onClick={()=> DeleteElement(i)}>
+                          <IconButton onClick={()=>{DeleteElement(i,"work")}}>
                           <ClearIcon/>
                           </IconButton>                           
                           </div>
@@ -154,9 +227,28 @@ const UpdateUser = ({state}) => {
                     })
                   }
                 </List>
-
+                </div>
+                <Button variant="contained" style={{
+                  fontSize : "0.8vw",
+                  width : "fit-content",
+                  margin : "4px auto"
+                }}
+                onClick={()=>{
+                  setTypeState("work");
+                  setDialogState(true);
+                }}
+                >
+                  Add Work/Project
+                </Button>
               </div>
-              <div>
+              <div
+                style={{
+                  display:"flex",
+                  flexDirection:"column",
+                  justifyContent : "space-between"
+                }}
+              >
+                <div>
               <Typography
                   sx={{
                     fontSize : "1.5vw",
@@ -179,7 +271,7 @@ const UpdateUser = ({state}) => {
                             }}
                           >
                           <WorkList style={{margin:"auto",width:"fit-content"}}element={e} index={i}/>
-                          <IconButton onClick={()=> DeleteElement(i)}>
+                          <IconButton onClick={()=>{DeleteElement(i,"education")}}>
                           <ClearIcon/>
                           </IconButton>                           
                           </div>
@@ -187,6 +279,20 @@ const UpdateUser = ({state}) => {
                     })
                   }
                 </List>
+                </div>
+                <Button variant="contained"
+                  style={{
+                    fontSize : "0.8vw",
+                    width : "fit-content",
+                    margin : "4px auto"
+                  }}
+                  onClick={()=>{
+                    setTypeState("education")
+                    setDialogState(true)
+                  }}
+                >
+                Add Education
+                </Button>
               </div>
             </Stack>
           <Divider sx={{width:"90%",margin:"auto"}}/>
@@ -206,6 +312,9 @@ const UpdateUser = ({state}) => {
               maxRows={4}
               sx={{width:"80%",margin : "auto"}}
               inputProps={TextFieldCSS}
+              value={UserInfo.description}
+              onChange={KeyChange}
+              name="description"
             ></TextField>
           </Stack>
         </List>
@@ -216,6 +325,28 @@ const UpdateUser = ({state}) => {
       }}
       onClick={HandleSubmit}
       >Submit</Button>
+      </Dialog>
+
+      <Dialog open={DialogState}>
+        <DialogTitle>Get In Touch</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {TypeState==="work"?"Enter your work : ":"Enter your education : "}
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={TypeState==="work"?WorkState:EducationState}
+            onChange={UpdateElement}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={()=>{setDialogState(false)}}>Cancel</Button>
+          <Button onClick={AddElement}>Save</Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

@@ -13,11 +13,12 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EditIcon from '@mui/icons-material/Edit';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import {LoggedIn,LoginUser} from "../Redux/actions"
+import {LoggedIn,LoginUser, UserId} from "../Redux/actions"
 
 import { useEffect ,useState} from 'react';
 
 import UpdateUser from '../Helpers/UpdateUser';
+import { useNavigate } from 'react-router-dom';
 
 
 const typoCSS = {
@@ -77,12 +78,14 @@ const useStyles = makeStyles((theme)=>({
 const Profile = () => {
     const classes =  useStyles();
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const UserInfo = useSelector((state) => state.UserReducer);
     const [UpdateDialog, setUpdateDialog] = useState(false)
     // setUserInfo(LoginUser({info:{},valid:true},dispatch))
     useEffect(() => {
         LoginUser({valid:false},dispatch)
         LoggedIn(dispatch);
+        UserId(dispatch)
     },[])
     
     const DialogState = () => {

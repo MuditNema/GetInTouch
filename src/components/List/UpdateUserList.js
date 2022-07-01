@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField'
 import Divider from '@mui/material/Divider'
 
 
-const UpdateUserList = (props) => {
+const UpdateUserList = ({item,User,KeyChange}) => {
     const TextFieldCSS = {style : {
         padding : "4px 8px",
         fontSize : "1.3vw"
@@ -25,11 +25,13 @@ const UpdateUserList = (props) => {
             disableTypography={true}
             sx={ListItemCSS}
             >
-                {props.item}
+                {item}
             </ListItemText>
             <TextField
             inputProps={TextFieldCSS}
-            value={props.value}
+            value={User.UserInfo[item.toLowerCase()]}
+            onChange={KeyChange}
+            name={item.toLowerCase()}
             />
             </ListItem>
             <Divider sx={{width:"90%",margin:"auto"}} />

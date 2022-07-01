@@ -4,6 +4,8 @@ const LOGIN_USER_INFO = 'user/login'
 const GetUserAction = createAction(LOGIN_USER_INFO)
 const AUTHENTICATE_USER = '/user/auth'
 const AuthenticateUserAction = createAction(AUTHENTICATE_USER)
+const USER_ID = 'user/id'
+const UpdateUserId = createAction(USER_ID)
 
 const LoginUser = async (data,dispatch) => {
     const Val = GetUser();
@@ -22,4 +24,8 @@ const LoggedIn = (dispatch) => {
     dispatch(AuthenticateUserAction())
 }
 
-export {LoginUser,GetUserAction,LoggedIn,AuthenticateUserAction}
+const UserId = (dispatch) => {
+    dispatch(UpdateUserId())
+}
+
+export {LoginUser,GetUserAction,LoggedIn,AuthenticateUserAction,UserId,UpdateUserId}

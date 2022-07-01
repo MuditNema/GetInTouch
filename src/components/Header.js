@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from 'react-cookie'
 import { useEffect } from 'react'
-import { LoginUser,LoggedIn } from '../Redux/actions'
+import { LoginUser,LoggedIn, UserId } from '../Redux/actions'
 import Cookies from 'js-cookie'
 const useStyles = makeStyles({
     box : {
@@ -67,12 +67,14 @@ const Header = () => {
             Cookies.remove('loggedin', { path: '' });
             LoginUser({valid:false},dispatch)
             LoggedIn(dispatch)
+            UserId(dispatch)
         }
         navigate('/login')
     }
     useEffect(() => {
         LoginUser({valid:false},dispatch)
         LoggedIn(dispatch);
+        UserId(dispatch)
         console.log("Header re-render")
     }, [])
     

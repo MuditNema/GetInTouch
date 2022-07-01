@@ -15,7 +15,7 @@ import {
 } from "react-router-dom";
 import Unauthenticated from './components/Unauthenticated';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoggedIn, LoginUser } from "./Redux/actions"
+import { LoggedIn, LoginUser, UserId } from "./Redux/actions"
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -44,6 +44,7 @@ const  App =   () => {
       // CheckUserStatus();
       LoggedIn(dispatch)
       LoginUser({info:{},valid:true},dispatch)
+      UserId(dispatch)
     },[])
     
   return (
