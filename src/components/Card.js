@@ -15,7 +15,8 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles((theme) => ({
     cardCSS : {
         width : "100%",
-        margin : "auto"
+        margin : "auto",
+        padding : "0px"
     },
     title : {
       color : theme.palette.primary.main
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const UserCard = () => {
+const UserCard = ({item}) => {
     const classes = useStyles();
   return (
     <Card sx={{ maxWidth: 400 }} className={classes.cardCSS}>
@@ -37,18 +38,15 @@ const UserCard = () => {
       />
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
-          </Avatar>
+          <Avatar src={item.profile} sx={{ bgcolor: red[500] , width : "80px",height : "80px" }} aria-label="recipe"/>
+            
         }
-        title={<Typography className={classes.title} sx={{fontSize : "24px"}}>Shrimp and Chorizo Paella</Typography>}
-        subheader={<Typography className={classes.subheader} sx={{fontSize : "18px"}}>September 14, 2016</Typography>}
+        title={<Typography className={classes.title} sx={{fontSize : "24px"}}>{item.name}</Typography>}
+        subheader={<Typography className={classes.subheader} sx={{fontSize : "18px"}}>{`${item.skills} | ${item.city}, ${item.country}`}</Typography>}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary" sx={{fontSize : "15px"}}>
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
+          {item.description.length <= 99?item.description:item.description.substr(0,51)+"..."}
         </Typography>
       </CardContent>
     </Card>
