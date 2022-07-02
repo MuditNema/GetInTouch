@@ -22,6 +22,9 @@ import Loading from './Loading';
 
 const useStyles =  makeStyles((theme) => ({
   login : {
+    display:"flex",
+    flexDirection:"column",
+    justifyContent:"space-evenly",
     width : "50%",
     height : "30vw",
     margin : "auto",
@@ -32,8 +35,9 @@ const useStyles =  makeStyles((theme) => ({
     }
   },
   inputdiv : {
-    height :"35%",
+    height :"fit-content",
     margin : "auto",
+    padding : "20px",
     width : "45%",
     color : theme.palette.primary.main
   },
@@ -134,7 +138,7 @@ const Login = () => {
         <div className={classes.inputdiv}>
           <Typography
             sx={{
-              fontSize : "2.6vw",
+              fontSize : "2vw",
               textAlign : "center",
               mt :"20px"
             }}
@@ -151,8 +155,7 @@ const Login = () => {
             size="small"
             inputProps={{
               style : {
-                fontSize : "1.5vw",
-                padding : "4px 8px",
+                fontSize : "1.5vw"
               }
             }}
             sx={{
@@ -164,7 +167,7 @@ const Login = () => {
         <div className={classes.inputdiv}>
           <Typography
             sx={{
-              fontSize : "2.6vw",
+              fontSize : "2vw",
               textAlign : "center",
             }}
           >PASSWORD
@@ -184,15 +187,15 @@ const Login = () => {
                 ?
                   <VisibilityIcon
                     sx={{
-                      padding : "0.5vw",
-                      fontSieze : "2vw"
+                      padding : "4px",
+                      fontSize : "2vw"
                     }}
                   />
                 :
                   <VisibilityOffIcon
                     sx={{
-                      padding : "0.5vw",
-                      fontSieze : "2vw"
+                      padding : "4px",
+                      fontSize : "2vw"
                     }}
                   />
               }
@@ -211,8 +214,7 @@ const Login = () => {
             fullWidth
             inputProps={{
               style : {
-                fontSize : "1.7vw",
-                padding : "4px 8px",
+                fontSize : "1.7vw"
               }
             }}
             sx={{
@@ -228,9 +230,9 @@ const Login = () => {
           <Button 
             variant="contained"
             sx={{
-              fontSize : "1.6vw",
+              fontSize : "1.5vw",
               width : "min-content",
-              margin : "auto"
+              margin : "6px auto",
             }}
             onClick={HandleSubmit}
           >LOGIN</Button>

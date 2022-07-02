@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, Paper, Typography } from '@mui/material'
+import { Avatar, Box, Grid, Typography } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { makeStyles } from '@mui/styles'
 import React from 'react'
@@ -7,15 +7,15 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
-import { useCookies } from 'react-cookie'
 import { useEffect } from 'react'
 import { LoginUser,LoggedIn, UserId } from '../Redux/actions'
 import Cookies from 'js-cookie'
+import Typewriter from 'typewriter-effect'
+
 const useStyles = makeStyles({
     box : {
         backgroundColor : "#E5F6F5",
         width : "100%",
-        fontFamily : "Fredoka",
         height : "25rem",
         borderBottomLeftRadius : "200px",
         "@media screen and (max-width :900px )" : {
@@ -89,7 +89,6 @@ const Header = () => {
                             width : "50%",
                             margin : "auto",
                             paddingTop : 6,
-                            fontFamily : 'Fredoka',
                             fontSize : "4vw",
                             "@media screen and (max-width : 900px) " : {
                                 fontSize : "6vw",
@@ -100,7 +99,12 @@ const Header = () => {
                         }}
                         color="primary"
                     >
-                        Technology is best when it brings people together.
+                        {/* Technology is best when it brings people together. */}
+                        <Typewriter options={{
+                            strings : ["Technology is best when it brings people together"],
+                            autoStart : true,
+                            loop : true
+                        }} />
                     </Typography>
                 </Grid>
                 <Grid item md={5} xs={12}

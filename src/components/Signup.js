@@ -30,7 +30,7 @@ import { useNavigate } from 'react-router-dom';
 const typoCSS = {
     color : "#3C5658",
     display : "inline",
-    fontSize : "2.5vw",
+    fontSize : "2vw",
     padding : "2px 12px",
     display :"flex",
     alignItems : "center",
@@ -41,7 +41,7 @@ const gridItemCSS = {
 }
 const inputStyle = {
     style : {
-        fontSize : "1.7vw",
+        fontSize : "1.5vw",
         padding : "4px 8px"
       }
 }
@@ -53,9 +53,9 @@ const useStyles = makeStyles((theme)=>({
         margin : " 3vw auto"
     },
     inputdiv : {
-        width : "80%",
+        width : "75%",
         margin : "auto",
-        padding : "20px 2px",
+        padding : "16px 2px",
         display : "flex",
         flexDirection : "row",
         alignItems : "center",
@@ -244,7 +244,7 @@ const Signup = () => {
         setEducation(Education.filter((e,ind)=>{ return ind!=i}))
     }
     const ToggleEduDialog = () => {
-        setEduState(!WorkState);
+        setEduState(!EduState);
     }
     const AddNewEdu = (e) => {
         e.preventDefault();
@@ -438,15 +438,15 @@ const Signup = () => {
                         <Avatar
                             src={TempSRC}
                             sx={{
-                                height : "12vw",
-                                width : "12vw"
+                                height : "10vw",
+                                width : "10vw"
                             }}
                         />
                 </div>
                 <div
                     className={classes.inputdiv}
                     style={{
-                        padding : "0px"
+                        padding : "16px 2px"
                     }}
                 >
                     
@@ -484,13 +484,13 @@ const Signup = () => {
                 >
                     <Button onClick={ToggleWorkDialog}>
                     <Typography
-                        sx={typoCSS} style={{textDecorationLine : "underline",border : "4px solid",width :"100%"}}
+                        sx={typoCSS} style={{border : "2px solid",width :"100%",backgroundColor:"#3C5658",color:"white"}}
                     >
-                        <AddIcon sx={typoCSS} style={{paddingRight : "0px"}}/>
+                        <AddIcon sx={typoCSS} style={{paddingRight : "0px",color:"white"}}/>
                         Work Experience
                     </Typography>
                     </Button>
-                    <Dialog open={WorkState} >
+                    <Dialog open={WorkState} display={false}>
                         <DialogTitle>GetInTouch</DialogTitle>
                         <FormControl>
                         <DialogContent>
@@ -516,7 +516,7 @@ const Signup = () => {
                         </FormControl>
                     </Dialog>
                 </div>
-                <div className={classes.inputdiv}>
+                <div className={classes.inputdiv} style={{padding:"0px"}}>
                     <List >
                         <Paper elevation={6}>
                         {
@@ -547,9 +547,9 @@ const Signup = () => {
                 >
                     <Button onClick={ToggleEduDialog}>
                     <Typography
-                        sx={typoCSS} style={{textDecorationLine : "underline",border : "4px solid ",width :"100%" }}
+                        sx={typoCSS} style={{border : "4px solid ",width :"100%" ,backgroundColor:"#3C5658",color:"white"}}
                     >
-                        <AddIcon sx={typoCSS} style={{paddingRight : "0px"}}/>
+                        <AddIcon sx={typoCSS} style={{paddingRight : "0px",color:"white"}}/>
                         Education
                     </Typography>
                     </Button>
@@ -579,7 +579,7 @@ const Signup = () => {
                         </FormControl>
                     </Dialog>
                 </div>
-                <div className={classes.inputdiv}>
+                <div className={classes.inputdiv} style={{padding:"0px"}}>
                     <List >
                         <Paper elevation={6} >
                         {
@@ -846,7 +846,7 @@ const Signup = () => {
                     <Button
                         variant='contained'
                         sx={{
-                            fontSize : "2vw"
+                            fontSize : "1.5vw"
                         }}
                         onClick={HandleSubmit}
                     >Signup</Button>

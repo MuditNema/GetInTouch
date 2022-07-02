@@ -40,8 +40,6 @@ const Home = () => {
         }
     }
 
-        
-
   return (
     <>
     {!LoadingState? 

@@ -21,9 +21,9 @@ import { Navigate } from 'react-router-dom';
 
 const theme= createTheme({
   typography : {
-    fontFamily : ['Fredoka'],
+    fontFamily : ['Fira sans'],
     fontWeightRegular : 400,
-    fontWeightLight :300
+    fontWeightLight :400
   },
   palette : {
     primary : {

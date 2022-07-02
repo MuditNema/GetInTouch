@@ -34,19 +34,24 @@ const UserCard = ({item}) => {
     useEffect(() => {
       GetImageURL();
     }, [])
-    const url = `https://api.unsplash.com/search/photos?query=${item.skills.toLowerCase()}&client_id=WsjJsXf3Fqpvi_zSfF6h-csRIFC1lF0uArSUSbMaWa0`
     
     const GetImageURL = async () => {
+        const url = `https://api.unsplash.com/search/photos?query=${item.skills.toLowerCase()}&client_id=WsjJsXf3Fqpvi_zSfF6h-csRIFC1lF0uArSUSbMaWa0`
         const response = await fetch(url,{
           method : "GET",
           mode : "cors"
         })
         const ans = await (response.json())
+        console.log(ans)
         if(ans.results.length===0){
           setImageURL("");
           setDefaultURL('https://insights.dice.com/wp-content/uploads/2019/04/Billing-Clients-Freelance-Developer-Freelancers-Dice.png')
         }
-        else setImageURL(ans.results[0].urls.full)
+        else{
+          const Index=0;
+          // const Index = Math.floor(Math.random()*ans.results.length)
+          setImageURL(ans.results[Index].urls.full)
+        }
         // if(ans.results.length==0) return null;
         // // console.log(ans.results[0].urls.full)
         // else return (ans.results[0].urls.full).toString();
@@ -70,7 +75,7 @@ const UserCard = ({item}) => {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary" sx={{fontSize : "15px"}}>
-          {item.description.length <= 99?item.description:item.description.substr(0,51)+"..."}
+          {item.description.length <= 111?item.description:item.description.substr(0,110)+"..."}
         </Typography>
       </CardContent>
     </Card>

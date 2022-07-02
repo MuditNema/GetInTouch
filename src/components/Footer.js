@@ -5,6 +5,11 @@ import Divider from '@mui/material/Divider';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
+const typograph={
+    textAlign:"center",
+    fontSize : "2vw",
+    padding : "5px"
+}
 
 const useStyles = makeStyles((theme) => ({
     footerbox : {
@@ -16,11 +21,6 @@ const useStyles = makeStyles((theme) => ({
     divider : {
         height : "10px",
         backgroundColor : "#B9E0E0"
-    },
-    typograph : {
-        textAlign : "center",
-        fontSize : "2rem",
-        padding : "5px",
     }
 }))
 
@@ -33,39 +33,41 @@ const Footer = () => {
             <Divider 
                 className={classes.divider}
             />
-            <Typography variant="h4" className={classes.typograph}>
+            <Typography  sx={typograph}>
                 Created by MUDIT NEMA
             </Typography>
+            <a target="_blank" href="https://github.com/MuditNema" style={{textDecoration:"none",color:"white"}}>
             <Typography  
-                variant="h4" 
                 display="flex"
-                className={classes.typograph}
+                sx={typograph}
                 alignItems="flex-start"
                 justifyContent='center'
             >
                 <GitHubIcon 
                     sx={{
-                        fontSize : "2.5rem",
+                        fontSize : "2.5vw",
                         mr : "4px"
                     }}
                 />
                 Github
             </Typography>
+            </a>
+            <a target="_blank" href="https://www.linkedin.com/in/mudit-nema-242a85210/" style={{textDecoration:"none",color:"white"}}>
             <Typography  
-                variant="h4" 
                 display="flex"
-                className={classes.typograph}
+                sx={typograph}
                 alignItems="flex-start"
                 justifyContent='center'
             >
                 <LinkedInIcon 
                     sx={{
-                        fontSize : "2.5rem",
+                        fontSize : "2.5vw",
                         mr : "4px"
                     }}
                 />
                 LinkedIn
             </Typography>
+            </a>
         </Box>
         </div>
     </>
