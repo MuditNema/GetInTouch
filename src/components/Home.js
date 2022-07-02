@@ -8,13 +8,16 @@ import {collection, getFirestore,getDocs} from "firebase/firestore"
 import {app} from "../Firebase/FirebaseConfig"
 import { useEffect, useState } from 'react';
 import {Button} from "@mui/material"
-import Loading from './Loading';
+import Loading from "./Loading"
 import {useNavigate} from "react-router-dom"
+import { useSelector } from 'react-redux';
 
 const Home = () => {    
     const db = getFirestore(app)
     const [MyUsers, setMyUsers] = useState([])
     const [LoadingState, setLoadingState] = useState(true)
+    const UserId = useSelector((state)=>state.UserId)
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -72,20 +75,24 @@ const Home = () => {
                 }
             >
             {
-                MyUsers.map((element,index)=>(
-                    <Grid item
+                MyUsers.map((element,index)=>{
+
+                    return (
+
+                       element.id!==UserId && <Grid item
                         key={index}
                         md={4}
                         sm={6}
                         xs={12}
-                    >
-                      <Button onClick={
-                        () => {
-                            navigate(`/hire/${element.id}`)
-                        }
-                      }>  <Card item={element} /> </Button>
-                    </Grid>
-                ))
+                        >
+                        <Button onClick={
+                            () => {
+                                navigate(`/hire/${element.id}`)
+                            }
+                        }>  <Card item={element} /> </Button>
+                        </Grid>
+                    )
+                })
             }
             </Grid>
             </Box>

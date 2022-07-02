@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { getDoc, doc, getFirestore } from 'firebase/firestore';
 import { app } from '../Firebase/FirebaseConfig';
 import { useState } from 'react';
-import Loading from './Loading';
+import Loading from "./Loading"
 import WorkList from './List/WorkList';
 import { Box } from '@mui/system';
 import {useSelector} from "react-redux"
@@ -57,7 +57,7 @@ const Hiring = () => {
     const [CurrentUser,setCurrentUser] = useState({});
     const [LoaderState, setLoaderState] = useState(true)
     const [Requirement, setRequirement] = useState("")
-
+    const IsLoggedIn = useSelector((state)=> state.UserStatus)
     const SenderInfo = useSelector((state)=> state.UserReducer) 
 
     useEffect(() => {
@@ -81,15 +81,24 @@ const Hiring = () => {
     }
 
     const HandleSubmit = async () => {
-        const EmailInputs = {
-            sender_name : SenderInfo.name,
-            name : CurrentUser.name,
-            message : Requirement,
-            sender_contact : SenderInfo.contact
+        try {
+            console.log(IsLoggedIn)
+            if(!IsLoggedIn){
+                alert("Login First")
+                return;
+            }
+            const EmailInputs = {
+                sender_name : SenderInfo.name,
+                name : CurrentUser.name,
+                message : Requirement,
+                sender_contact : SenderInfo.contact
+            }
+            console.log(EmailInputs)
+            const Email = await emailjs.send('service_la9duhq', 'template_up869fa',EmailInputs,'QF4UVhq5IcR0nAXXx' )
+            console.log(Email)
+        } catch (error) {
+            console.log(error)
         }
-        console.log(EmailInputs)
-        const Email = await emailjs.send('service_la9duhq', 'template_up869fa',EmailInputs,'QF4UVhq5IcR0nAXXx' )
-        console.log(Email)
     }
 
     const classes =  useStyles();
