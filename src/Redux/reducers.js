@@ -1,7 +1,7 @@
 import {  createReducer } from '@reduxjs/toolkit'
 import { GetUser } from '../Helpers/GetUser'
 import { GetUserId } from '../Helpers/GetUserId';
-import {AuthenticateUserAction, GetUserAction, UpdateUserId}  from "./actions" 
+import {AuthenticateUserAction, GetUserAction, UpdateUserId, UserFilter}  from "./actions" 
 
 const UserCredentials = GetUser();
 export const UserReducer = createReducer(UserCredentials,(builder) => {
@@ -23,5 +23,13 @@ const UserId = GetUserId();
 export const UserIdStatus = createReducer(UserId,(builder)=>{
     builder.addCase(UpdateUserId,(state,action)=>{
         return GetUserId();
+    })
+})
+
+const UserFilterState = ""
+export const UserFilterInfo = createReducer(UserFilterState,(builder)=>{
+    builder.addCase(UserFilter,(state,action)=> {
+        console.log(action)
+        return action.payload
     })
 })

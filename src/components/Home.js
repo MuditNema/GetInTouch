@@ -15,8 +15,10 @@ import { useSelector } from 'react-redux';
 const Home = () => {    
     const db = getFirestore(app)
     const [MyUsers, setMyUsers] = useState([])
-    const [LoadingState, setLoadingState] = useState(true)
+    const [LoadingState, setLoadingState] = useState(true)    
+
     const UserId = useSelector((state)=>state.UserId)
+    const FilterValue = useSelector((state)=>state.UserFilter)
 
     const navigate = useNavigate()
 
@@ -77,7 +79,7 @@ const Home = () => {
 
                     return (
 
-                       element.id!==UserId && <Grid item
+                        element.skills.toLowerCase().includes(FilterValue.toLowerCase()) && element.id!==UserId && <Grid item
                         key={index}
                         md={4}
                         sm={6}
