@@ -9,14 +9,15 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useState } from 'react';
 import { makeStyles } from '@mui/styles';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     cardCSS : {
         width : "100%",
         margin : "auto",
-        padding : "0px"
+        padding : "0px",
     },
     title : {
       color : theme.palette.primary.main
@@ -28,13 +29,36 @@ const useStyles = makeStyles((theme) => ({
 
 const UserCard = ({item}) => {
     const classes = useStyles();
+    const [ImageURL, setImageURL] = useState("")
+    const [DefaultURL, setDefaultURL] = useState("")
+    useEffect(() => {
+      GetImageURL();
+    }, [])
+    const url = `https://api.unsplash.com/search/photos?query=${item.skills.toLowerCase()}&client_id=WsjJsXf3Fqpvi_zSfF6h-csRIFC1lF0uArSUSbMaWa0`
+    
+    const GetImageURL = async () => {
+        const response = await fetch(url,{
+          method : "GET",
+          mode : "cors"
+        })
+        const ans = await (response.json())
+        if(ans.results.length===0){
+          setImageURL("");
+          setDefaultURL('https://insights.dice.com/wp-content/uploads/2019/04/Billing-Clients-Freelance-Developer-Freelancers-Dice.png')
+        }
+        else setImageURL(ans.results[0].urls.full)
+        // if(ans.results.length==0) return null;
+        // // console.log(ans.results[0].urls.full)
+        // else return (ans.results[0].urls.full).toString();
+    }
+    
   return (
-    <Card sx={{ maxWidth: 400 }} className={classes.cardCSS}>
+    <Card elevation={4} sx={{ maxWidth: 400 }} className={classes.cardCSS}>
         <CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
-        alt="Paella dish"
+        image={ImageURL.length==0?DefaultURL:ImageURL}
+        
       />
       <CardHeader
         avatar={

@@ -11,6 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Loading from "./Loading"
 
 import {app} from "../Firebase/FirebaseConfig"
 import { getAuth, createUserWithEmailAndPassword  } from "firebase/auth";
@@ -79,7 +80,8 @@ const Signup = () => {
     const storage = getStorage(app);
 
     const [PasswordConfirm, setPasswordConfirm] = useState("");
-    
+    const [LoaderState, setLoaderState] = useState(false)
+
     const [ImageURL, setImageURL] = useState({})
     const [TempSRC, setTempSRC] = useState("")
     const [Education, setEducation] = useState([])
@@ -142,21 +144,24 @@ const Signup = () => {
     const CheckForm = () => {
         let ErrorObj = {
             email : !validator.isEmail(UserCreds.email),
-            name : !validator.isLength(UserCreds.name,5,20),
+            name : !validator.isLength(UserCreds.name,{min:5,max:20}),
             contact : !validator.isNumeric(UserCreds.contact),
-            city : validator.isEmpty(UserCreds.city),
-            country : validator.isEmpty(UserCreds.country),
-            github : validator.isEmpty(UserCreds.github),
-            linkedin : validator.isEmpty(UserCreds.linkedin),
-            skills : validator.isEmpty(UserCreds.skills),
+            city : validator.isEmpty(UserCreds.city,{ignore_whitespace:true}),
+            country : validator.isEmpty(UserCreds.country,{ignore_whitespace:true}),
+            github : validator.isEmpty(UserCreds.github,{ignore_whitespace:true}),
+            linkedin : validator.isEmpty(UserCreds.linkedin,{ignore_whitespace:true}),
+            skills : validator.isEmpty(UserCreds.skills,{ignore_whitespace:true}),
             password : !(validator.isStrongPassword(UserCreds.password) && UserCreds.password === PasswordConfirm),
-            description : !validator.isLength(UserCreds.description,10,120),
-            profile : validator.isEmpty(UserCreds.profile)
-        }
-        for(const item in ErrorObj){
-            if(ErrorObj[item]) return false;
+            description : !validator.isLength(UserCreds.description,{min:20}),
+            profile : validator.isEmpty(UserCreds.profile,{ignore_whitespace:true})
         }
         setErrorHandler(ErrorObj);
+        // for(const item in ErrorObj){
+        //     console.log(`${ErrorObj[item]}`)
+        // }
+        for(const item in ErrorObj){
+            if(ErrorObj[item]) return true;
+        }
         return false;
     }
     const navigate = useNavigate();
@@ -188,11 +193,15 @@ const Signup = () => {
             //adding the user info to the database
             const UserDocRef = await addDoc(collection(db,"users"),UserCreds)
             console.log(UserDocRef.id);
-            setErrorConsole({...ErrorConsole,message:"Registered successfully".toString(),AlertState:true,e:false})
-            navigate('/login')
+            setErrorConsole({...ErrorConsole,message:"Registered successfully. Redirecting to Login Page".toString(),AlertState:true,e:false})
             setTimeout(() => {
-                setErrorConsole({...ErrorConsole,message:"",AlertState:false,e:false});
-            }, 5000);
+                setLoaderState(true)
+                setErrorConsole({...ErrorConsole,message:"",AlertState:false,e:false});   
+            }, 3500);
+            setTimeout(() => {
+                setLoaderState(false)
+                navigate('/login')
+            }, 4000);
         } catch (error) {
             console.log(error)
             setErrorConsole({...ErrorConsole,message:error.toString(),AlertState:true,e:true})
@@ -253,7 +262,8 @@ const Signup = () => {
 
     
   return (
-    <Paper
+    <>
+    {!LoaderState?<Paper
         elevation={5}
         className={classes.signupbox}
     >
@@ -847,6 +857,9 @@ const Signup = () => {
         </Grid>
         </FormControl>
     </Paper>
+    :<Loading/>}
+    
+    </>
   )
 }
 

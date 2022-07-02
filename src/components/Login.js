@@ -16,6 +16,9 @@ import { getDocs } from 'firebase/firestore';
 import { collection, query, where } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
+import AlertComponent from './AlertComponent';
+import Loading from './Loading';
+
 
 const useStyles =  makeStyles((theme) => ({
   login : {
@@ -46,6 +49,7 @@ const useStyles =  makeStyles((theme) => ({
 
 
 
+
 const Login = () => {
   const classes = useStyles();
   const [Visibility, SetVisibility] = useState(true);
@@ -53,13 +57,21 @@ const Login = () => {
   const navigate = useNavigate();
   const [LoginEmail, setLoginEmail] = useState("")
   const [LoginPassword, setLoginPassword] = useState("")
-
+  
   const [Cookies,setCookies] = useCookies();
+  
+  const [LoaderState, setLoaderState] = useState(false)
 
   const dispatch = useDispatch();
   const auth =  getAuth(app);
   const db = getFirestore(app)
-
+  
+  const [ErrorConsole, setErrorConsole] = useState({message:"This is message",AlertState:false,e:true})
+  
+  useEffect(() => {
+     LoginUser({valid:false},dispatch)
+      LoggedIn(dispatch);
+  }, [])
   const HandleChange = (e) => {
     if(e.target.name==="email"){
       setLoginEmail(e.target.value)
@@ -90,21 +102,31 @@ const Login = () => {
         LoggedIn(dispatch)
         UserId(dispatch)
         console.log(UserID)
-        navigate('/profile/1')
       })
+      setErrorConsole({...ErrorConsole,e:false,AlertState:true,message:"Login Successful. Redirecting to the home page"})
+      setTimeout(() => {
+        setErrorConsole({...ErrorConsole,message:"",e:false,AlertState:false})
+        setLoaderState(true)
+      }, 3500);
+      setTimeout(() => {
+        setLoaderState(false)
+        navigate('/')
+      }, 4000);
       
     } catch (error) {
-      console.log(error)
+      console.log(typeof(error))
+      setErrorConsole({...ErrorConsole,e:true,AlertState:true,message:error.toString()})
+      setTimeout(() => {
+        setErrorConsole({...ErrorConsole,message:"",e:true,AlertState:false})
+      }, 3500);
     }
   }
-  useEffect(() => {
-     LoginUser({valid:false},dispatch)
-      LoggedIn(dispatch);
-  }, [])
-  
 
   return (
     <>
+      {!LoaderState?
+      <> 
+      <AlertComponent message={ErrorConsole.message} AlertState={ErrorConsole.AlertState}   e={ErrorConsole.e}  />
       <Paper
         className={classes.login}
         elevation={8}
@@ -229,6 +251,8 @@ const Login = () => {
           Sign up here
         </Link>
       </Typography>
+      </>
+      :<Loading/>}
     </>
   )
 }

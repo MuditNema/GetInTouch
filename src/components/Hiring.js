@@ -20,6 +20,7 @@ import { Box } from '@mui/system';
 import {useSelector} from "react-redux"
 
 import emailjs from '@emailjs/browser';
+import AlertComponent from './AlertComponent';
 
 
 
@@ -59,7 +60,11 @@ const Hiring = () => {
     const [Requirement, setRequirement] = useState("")
     const IsLoggedIn = useSelector((state)=> state.UserStatus)
     const SenderInfo = useSelector((state)=> state.UserReducer) 
-
+    const [ErrorConsole, setErrorConsole] = useState({
+        e:true,
+        AlertState:false,
+        message:""
+    })
     useEffect(() => {
         const GetUser = async () => {
             try {
@@ -82,28 +87,46 @@ const Hiring = () => {
 
     const HandleSubmit = async () => {
         try {
-            console.log(IsLoggedIn)
             if(!IsLoggedIn){
-                alert("Login First")
+                setErrorConsole({...ErrorConsole,message:"You are required to login",e:true,AlertState : true})
+                setTimeout(() => {
+                    setErrorConsole({...ErrorConsole,message:"",e:false,AlertState : false})
+                }, 3500);
+                return;
+            }
+            if(Requirement.length==0){
+                setErrorConsole({...ErrorConsole,message:"Please enter your requirements",e:true,AlertState : true})
+                setTimeout(() => {
+                    setErrorConsole({...ErrorConsole,message:"",e:false,AlertState : false})
+                }, 3500);
                 return;
             }
             const EmailInputs = {
                 sender_name : SenderInfo.name,
                 name : CurrentUser.name,
                 message : Requirement,
-                sender_contact : SenderInfo.contact
+                sender_contact : SenderInfo.contact,
+                sender_email : SenderInfo.email,
+                reciever_email : CurrentUser.email
             }
-            console.log(EmailInputs)
             const Email = await emailjs.send('service_la9duhq', 'template_up869fa',EmailInputs,'QF4UVhq5IcR0nAXXx' )
-            console.log(Email)
+            setErrorConsole({...ErrorConsole,message:"Email sent successfully ",e:false,AlertState : true})
+                setTimeout(() => {
+                    setErrorConsole({...ErrorConsole,message:"",e:false,AlertState : false})
+                }, 3500);
         } catch (error) {
-            console.log(error)
+            // console.log(error)
+            setErrorConsole({...ErrorConsole,message:error.toString(),e:true,AlertState : true})
+                setTimeout(() => {
+                    setErrorConsole({...ErrorConsole,message:"",e:false,AlertState : false})
+                }, 3500);
         }
     }
 
     const classes =  useStyles();
     return (
         <>
+        <AlertComponent AlertState={ErrorConsole.AlertState} e={ErrorConsole.e} message={ErrorConsole.message}/>
         {!LoaderState?
         <Paper
         elevation={5}
@@ -135,7 +158,7 @@ const Hiring = () => {
 
 
             <Avatar 
-                src="/static/images/avatar/1.jpg"
+                src={CurrentUser.profile}
                 sx={avtr}
             />
                 </div>
