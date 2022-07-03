@@ -24,7 +24,7 @@ import { useNavigate } from 'react-router-dom';
 const typoCSS = {
     color : "#3C5658",
     display : "inline",
-    fontSize : "2.5vw",
+    fontSize : "2vw",
     padding : "2px 12px",
     display :"flex"
 }
@@ -45,18 +45,10 @@ const useStyles = makeStyles((theme)=>({
         borderTopRightRadius : "200px",
         borderBottomRightRadius : "200px"
     },
-    blockRight : {
-        margin : "12px 0px",
-        width : "75%",
-        backgroundColor : "#E5F6F5",
-        borderTopRightRadius : "200px",
-        borderBottomRightRadius : "200px",
-        position :"relative"
-    },
     profilebox : {
         border : "2px solid",
         borderColor : theme.palette.primary.main,
-        width: "80%",
+        width: "75%",
         margin : " 3vw auto"
     },
     divider : {
@@ -69,7 +61,7 @@ const useStyles = makeStyles((theme)=>({
     },
     typograph : {
         textAlign : "center",
-        fontSize : "2rem",
+        fontSize : "2vw",
         padding : "5px",
     }
 }))
@@ -78,20 +70,33 @@ const useStyles = makeStyles((theme)=>({
 const Profile = () => {
     const classes =  useStyles();
     const dispatch = useDispatch();
-    const navigate = useNavigate()
     const UserInfo = useSelector((state) => state.UserReducer);
     const [UpdateDialog, setUpdateDialog] = useState(false)
+    const [BackgroundURL, setBackgroundURL] = useState("")
     // setUserInfo(LoginUser({info:{},valid:true},dispatch))
     useEffect(() => {
         LoginUser({valid:false},dispatch)
         LoggedIn(dispatch);
         UserId(dispatch)
+        CoverURL();
     },[])
     
     const DialogState = () => {
         setUpdateDialog(!UpdateDialog);
     }
-
+    const CoverURL = async () => {
+        const defaultURL = 'https://insights.dice.com/wp-content/uploads/2019/04/Billing-Clients-Freelance-Developer-Freelancers-Dice.png'
+        const url = `https://api.unsplash.com/search/photos?query=${UserInfo.skills.toLowerCase()}&client_id=WsjJsXf3Fqpvi_zSfF6h-csRIFC1lF0uArSUSbMaWa0`
+        const response = await fetch(url,{
+            method : "GET",
+            mode : "cors"
+        })
+        const ans = await response.json();
+        if(ans.results.length==0){
+            setBackgroundURL(defaultURL)
+        }
+        else setBackgroundURL(ans.results[0].urls.full)
+    }
     return (
         <>
             <Paper
@@ -166,7 +171,7 @@ const Profile = () => {
             </Stack>
             <Stack
                 direction={{md : "row",sm : "row"}}
-                className={classes.blockRight}
+                className={classes.blockLeft}
                 justifyContent = "space-between"
             >
                 <div
@@ -200,13 +205,14 @@ const Profile = () => {
                 
                 <div>
                     <Avatar
+                        src={BackgroundURL}
                         sx={avtr}
                     />
                 </div>
             </Stack>
             <Stack
                 direction={{md : "row",sm : "row"}}
-                className={classes.blockRight}
+                className={classes.blockLeft}
                 justifyContent = "space-evenly"
             >
                 <div style={{

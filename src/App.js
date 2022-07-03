@@ -39,6 +39,7 @@ const  App =   () => {
     console.log(1)
     // MyFunc(dispatch);
     const UserStatus = useSelector((state)=>state.UserStatus)
+    const UserCred = useSelector((state)=>state.UserId)
     console.log(UserStatus)
     useEffect(() => {
       // CheckUserStatus();
@@ -65,8 +66,8 @@ const  App =   () => {
             <Route  path="/signup" element={<Signup/>}/>
             {
               UserStatus?
-                <Route  path="/profile/:id" element={<Profile/>} />
-              :<Route  path="/profile/:id" element={<Unauthenticated/>}/>
+                <Route  path={`/profile/${UserCred}`} element={<Profile/>} />
+              :<Route  path={"/profile"} element={<Unauthenticated/>}/>
             }
             
             <Route  path="/hire/:id" element={<Hiring/>}/>

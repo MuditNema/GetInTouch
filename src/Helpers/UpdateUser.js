@@ -40,7 +40,7 @@ const TextFieldCSS = {style : {
 }}
 const ListItemCSS = {
   fontSize:"1.5vw",
-  fontFamily: "Fredoka"
+  fontFamily : "Fira sans"
 }
 const UpdateUser = ({state}) => {
     const options = useMemo(() => countryList().getData(), [])

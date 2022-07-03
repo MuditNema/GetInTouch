@@ -102,6 +102,7 @@ const Header = () => {
     const location = useLocation();
     const UserInfo = useSelector((state) => state.UserReducer)
     const UserStatus = useSelector((state) => state.UserStatus)
+    const UserCred = useSelector((state) => state.UserId)
     const dispatch = useDispatch();
 
     const [SearchBar, setSearchBar] = useState("")
@@ -242,7 +243,10 @@ const Header = () => {
                                     }
                                 }}
                                 onClick={()=>{
-                                    navigate('/profile/1')
+                                    if(UserStatus){
+                                        navigate(`/profile/${UserCred}`)
+                                    }
+                                    else navigate('/profile')
                                 }}
                             />
                             
