@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/GetInTouch/static/css/main.2b2f98e0.css",
-    "main.js": "/GetInTouch/static/js/main.d8abba07.js",
+    "main.css": "/GetInTouch/static/css/main.963bd457.css",
+    "main.js": "/GetInTouch/static/js/main.98694b7f.js",
     "static/media/headerBG.png": "/GetInTouch/static/media/headerBG.25bff129cac122d77d07.png",
     "index.html": "/GetInTouch/index.html",
-    "main.2b2f98e0.css.map": "/GetInTouch/static/css/main.2b2f98e0.css.map",
-    "main.d8abba07.js.map": "/GetInTouch/static/js/main.d8abba07.js.map"
+    "main.963bd457.css.map": "/GetInTouch/static/css/main.963bd457.css.map",
+    "main.98694b7f.js.map": "/GetInTouch/static/js/main.98694b7f.js.map"
   },
   "entrypoints": [
-    "static/css/main.2b2f98e0.css",
-    "static/js/main.d8abba07.js"
+    "static/css/main.963bd457.css",
+    "static/js/main.98694b7f.js"
   ]
 }
