@@ -1,5 +1,5 @@
 
-To visit the site , click on the given link : https://sparkling-licorice-ce9ebd.netlify.app/
+To visit the site , click on the given link : https://getintouchfreelance.herokuapp.com/
 
 # Getting Started with Create React App
 
