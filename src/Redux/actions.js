@@ -7,6 +7,10 @@ const AuthenticateUserAction = createAction(AUTHENTICATE_USER)
 const USER_ID = 'user/id'
 const UpdateUserId = createAction(USER_ID)
 
+const FILTER_ACTION = '/data/filter'
+const UserFilter = createAction(FILTER_ACTION);
+
+
 const LoginUser = async (data,dispatch) => {
     const Val = GetUser();
     const Obj = {
@@ -28,4 +32,8 @@ const UserId = (dispatch) => {
     dispatch(UpdateUserId())
 }
 
-export {LoginUser,GetUserAction,LoggedIn,AuthenticateUserAction,UserId,UpdateUserId}
+const FilterKey = (value,dispatch) => {
+    dispatch(UserFilter(value))
+}
+
+export {LoginUser,GetUserAction,LoggedIn,AuthenticateUserAction,UserId,UpdateUserId,FilterKey,UserFilter}

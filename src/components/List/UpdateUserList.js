@@ -11,8 +11,7 @@ const UpdateUserList = ({item,User,KeyChange}) => {
         fontSize : "1.3vw"
       }}
       const ListItemCSS = {
-        fontSize:"1.5vw",
-        fontFamily: "Fredoka"
+        fontSize:"1.5vw"
       }
     return (
         <div>
