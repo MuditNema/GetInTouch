@@ -1,3 +1,9 @@
+GetInTouch is a platform where you can register yourself as a freelancer and find work for yourself. Just enter some details about yourself , showcase your work and tell the world about your skills. Finding work is that easy for you now!!.
+Technologies used : 
+1. Firebase Firestore for database.
+2. Firebase Storage.
+3. Firebase Authentication.
+4.React.JS
 
 To visit the site , click on the given link : https://getintouchfreelance.herokuapp.com/
 
