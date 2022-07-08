@@ -1,11 +1,7 @@
 GetInTouch is a platform where you can register yourself as a freelancer and find work for yourself. Just enter some details about yourself , showcase your work and tell the world about your skills. Finding work is that easy for you now!!.
-Technologies used : 
-1. Firebase Firestore for database.
-2. Firebase Storage.
-3. Firebase Authentication.
-4. React.JS
 
-<p align="center">
+<p align="left">
+  <h3 align="left">Languages and Tools:</h3>
   <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a>
   <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> 
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> 
