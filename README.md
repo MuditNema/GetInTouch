@@ -3,7 +3,7 @@ Technologies used :
 1. Firebase Firestore for database.
 2. Firebase Storage.
 3. Firebase Authentication.
-4.React.JS
+4. React.JS
 
 To visit the site , click on the given link : https://getintouchfreelance.herokuapp.com/
 
